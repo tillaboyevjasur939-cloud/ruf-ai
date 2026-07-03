@@ -1,0 +1,396 @@
+/* RUF - Secure Terminal Theme CSS */
+
+:root {
+    --bg-main: #09090b;
+    --bg-panel: #111115;
+    --bg-input: #050505;
+    --text-main: #d4d4d8;
+    --text-muted: #71717a;
+    --text-green: #22c55e;
+    --text-yellow: #eab308;
+    --text-red: #ef4444;
+    --border-color: #27272a;
+    --border-highlight: #3f3f46;
+    --font-mono: 'JetBrains Mono', monospace;
+    --font-sans: 'Inter', sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    font-family: var(--font-mono);
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Terminal Container */
+.terminal-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    border: 1px solid var(--border-color);
+    background: var(--bg-main);
+}
+
+@media (min-width: 1200px) {
+    .terminal-container {
+        width: 95vw;
+        height: 95vh;
+        max-width: 1600px;
+        border-radius: 8px;
+        box-shadow: 0 0 40px rgba(0,0,0,0.8);
+        overflow: hidden;
+    }
+}
+
+/* Sidebar Panel */
+.sys-panel {
+    width: 300px;
+    background: var(--bg-panel);
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+    .sys-panel { display: none; }
+}
+
+.sys-header {
+    margin-bottom: 30px;
+    border-bottom: 1px dashed var(--border-color);
+    padding-bottom: 15px;
+}
+
+.sys-logo {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-main);
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+}
+
+.sys-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.led {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    box-shadow: 0 0 5px currentColor;
+}
+
+.led-yellow { color: var(--text-yellow); background: var(--text-yellow); }
+.led-green { color: var(--text-green); background: var(--text-green); }
+.led-red { color: var(--text-red); background: var(--text-red); }
+
+.sys-info {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 40px;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+}
+
+.info-key { color: var(--text-muted); }
+.info-val { font-weight: 700; }
+.text-green { color: var(--text-green) !important; }
+.text-red { color: var(--text-red) !important; }
+
+.sys-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: auto;
+    margin-bottom: 20px;
+}
+
+.btn-terminal {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-muted);
+    padding: 10px;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s;
+}
+
+.btn-terminal:hover {
+    background: rgba(255,255,255,0.05);
+    color: var(--text-main);
+    border-color: var(--border-highlight);
+}
+
+.sys-footer {
+    font-size: 0.7rem;
+    color: var(--text-red);
+    text-align: center;
+    border-top: 1px dashed var(--border-color);
+    padding-top: 15px;
+    letter-spacing: 1px;
+}
+
+/* Main Area */
+.terminal-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    background: var(--bg-main);
+}
+
+/* Loader Overlay */
+.loader-overlay {
+    position: absolute;
+    inset: 0;
+    background: var(--bg-main);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.loader-content {
+    width: 80%;
+    max-width: 600px;
+}
+
+.loader-text {
+    font-size: 1rem;
+    line-height: 1.8;
+    margin-bottom: 20px;
+}
+
+.blink {
+    animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+    50% { opacity: 0; }
+}
+
+.progress-track {
+    width: 100%;
+    height: 4px;
+    background: var(--bg-panel);
+    border: 1px solid var(--border-color);
+    margin-bottom: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--text-green);
+    box-shadow: 0 0 10px var(--text-green);
+    transition: width 0.3s;
+}
+
+.load-detail {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.error-log {
+    margin-top: 20px;
+    color: var(--text-red);
+    border: 1px solid var(--text-red);
+    padding: 15px;
+    background: rgba(239, 68, 68, 0.05);
+    font-size: 0.85rem;
+}
+
+.hidden { display: none !important; }
+
+/* Chat Output */
+.chat-output {
+    flex: 1;
+    overflow-y: auto;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    scroll-behavior: smooth;
+}
+
+.chat-output::-webkit-scrollbar { width: 6px; }
+.chat-output::-webkit-scrollbar-track { background: var(--bg-main); }
+.chat-output::-webkit-scrollbar-thumb { background: var(--border-color); }
+
+.welcome-log {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    line-height: 1.5;
+    margin-bottom: 20px;
+}
+
+/* Messages */
+.msg-row {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    animation: slideUp 0.2s ease-out;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.msg-header {
+    font-size: 0.75rem;
+    margin-bottom: 5px;
+    display: flex;
+    gap: 10px;
+}
+
+.msg-header.user { color: var(--text-muted); }
+.msg-header.bot { color: var(--text-green); }
+
+.msg-content {
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--text-main);
+    padding-left: 15px;
+    border-left: 2px solid transparent;
+}
+
+.user .msg-content {
+    border-left-color: var(--border-highlight);
+    color: #a1a1aa;
+}
+
+.bot .msg-content {
+    border-left-color: var(--text-green);
+}
+
+/* Markdown Styles in Terminal */
+.msg-content code {
+    font-family: var(--font-mono);
+    background: var(--bg-panel);
+    padding: 2px 6px;
+    color: var(--text-yellow);
+    border: 1px solid var(--border-color);
+    border-radius: 3px;
+    font-size: 0.85rem;
+}
+
+.msg-content pre {
+    background: #000;
+    border: 1px solid var(--border-highlight);
+    margin: 15px 0;
+    overflow-x: auto;
+    position: relative;
+}
+
+.msg-content pre code {
+    background: transparent;
+    border: none;
+    color: var(--text-main);
+    display: block;
+    padding: 15px;
+    line-height: 1.5;
+}
+
+.code-top {
+    background: var(--border-color);
+    padding: 5px 15px;
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.code-copy {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+}
+
+.code-copy:hover { color: var(--text-main); }
+
+.msg-content ul, .msg-content ol { margin-left: 20px; margin-top: 10px; margin-bottom: 10px; }
+.msg-content li { margin-bottom: 5px; }
+
+/* Input Section */
+.input-section {
+    background: var(--bg-input);
+    border-top: 1px solid var(--border-color);
+    padding: 20px 30px;
+    display: flex;
+    align-items: flex-end;
+    gap: 15px;
+    flex-shrink: 0;
+}
+
+.input-prefix {
+    color: var(--text-green);
+    font-size: 0.9rem;
+    padding-bottom: 8px;
+    user-select: none;
+}
+
+.command-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: var(--text-main);
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    outline: none;
+    resize: none;
+    max-height: 200px;
+    padding: 4px 0;
+}
+
+.command-input::placeholder { color: var(--border-highlight); }
+
+.btn-execute {
+    background: var(--text-green);
+    color: #000;
+    border: none;
+    padding: 8px 16px;
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    flex-shrink: 0;
+}
+
+.btn-execute:hover:not(:disabled) {
+    background: #4ade80;
+    box-shadow: 0 0 10px rgba(34, 197, 94, 0.4);
+}
+
+.btn-execute:disabled {
+    background: var(--border-color);
+    color: var(--text-muted);
+    cursor: not-allowed;
+}

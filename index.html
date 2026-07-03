@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RUF Terminal</title>
+    <meta name="description" content="RUF - Independent Local AI System">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+
+    <!-- WebLLM CDN -->
+    <script type="importmap">
+    {
+        "imports": {
+            "@mlc-ai/web-llm": "https://esm.run/@mlc-ai/web-llm"
+        }
+    }
+    </script>
+</head>
+<body>
+    <div class="terminal-container">
+        <!-- Sidebar / System Info -->
+        <aside class="sys-panel">
+            <div class="sys-header">
+                <div class="sys-logo">RUF_</div>
+                <div class="sys-status">
+                    <span id="status-led" class="led led-yellow"></span>
+                    <span id="status-text">INITIALIZING...</span>
+                </div>
+            </div>
+            
+            <div class="sys-info">
+                <div class="info-row">
+                    <span class="info-key">OS:</span>
+                    <span class="info-val">LOCAL_SECURE</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-key">NET:</span>
+                    <span class="info-val text-green">OFFLINE</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-key">MEM:</span>
+                    <span class="info-val" id="mem-usage">-- / --</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-key">MODEL:</span>
+                    <span class="info-val">PHI-3.5-MINI</span>
+                </div>
+            </div>
+
+            <div class="sys-actions">
+                <button id="btn-clear" class="btn-terminal" onclick="clearTerminal()">[ CLEAR_LOGS ]</button>
+                <button id="btn-reboot" class="btn-terminal text-red" onclick="location.reload()">[ REBOOT_SYS ]</button>
+            </div>
+            
+            <div class="sys-footer">
+                AUTHORIZED PERSONNEL ONLY
+            </div>
+        </aside>
+
+        <!-- Main Terminal Area -->
+        <main class="terminal-main">
+            <!-- Loading Overlay -->
+            <div id="loader-overlay" class="loader-overlay">
+                <div class="loader-content">
+                    <div class="loader-text">
+                        <span class="blink">></span> BOOT_SEQUENCE_INITIATED<br>
+                        <span class="blink">></span> LOADING_LOCAL_MODEL... <span id="load-pct" class="text-green">0%</span>
+                    </div>
+                    <div class="progress-track">
+                        <div id="progress-bar" class="progress-fill"></div>
+                    </div>
+                    <div id="load-detail" class="load-detail">Awaiting WebGPU connection...</div>
+                    <div id="error-box" class="error-log hidden">
+                        [FATAL_ERROR]: <span id="error-text"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Output -->
+            <div id="chat-output" class="chat-output hidden">
+                <div class="welcome-log">
+                    -------------------------------------------------<br>
+                    Welcome to RUF (Robust Unified Framework)<br>
+                    Secure Terminal Session Established.<br>
+                    Type your command below.<br>
+                    -------------------------------------------------<br>
+                </div>
+            </div>
+
+            <!-- Input Area -->
+            <div id="input-section" class="input-section hidden">
+                <div class="input-prefix">root@ruf:~#</div>
+                <textarea id="command-input" class="command-input" placeholder="Enter command..." rows="1" autofocus></textarea>
+                <button id="btn-execute" class="btn-execute" disabled>EXEC</button>
+            </div>
+        </main>
+    </div>
+
+    <script type="module" src="app.js"></script>
+</body>
+</html>
